@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
+use App\Models\Recipe;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\Comment;
 
-class WebPostController extends Controller
+class FrontPageController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,13 +16,13 @@ class WebPostController extends Controller
      */
     public function index()
     {
-        $posts = Post::with('author:id,name', 'comments.user')->paginate(10);
-        $postMoreComments = Post::with('comments')->get()->sortByDesc(function($comments)
+        $recipes = Recipe::with('author:id,name', 'comments.user')->paginate(10);
+        $recipeMoreComments = Recipe::with('comments')->get()->sortByDesc(function($comments)
         {
             return $comments->comments->count();
         });
         // dd($postMoreComments);
-        return view('home')->with(compact('posts', 'postMoreComments'));
+        return view('home')->with(compact('recipes', 'recipeMoreComments'));
     }
 
     /**
@@ -31,10 +31,10 @@ class WebPostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show(Post $post)
+    public function show(Recipe $recipe)
     {
         $categories = Category::All();
-        return view('post')->with(compact('post', 'categories'));
+        return view('recipe')->with(compact('recipe', 'categories'));
 
     }
 

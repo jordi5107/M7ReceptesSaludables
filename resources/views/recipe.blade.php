@@ -8,9 +8,9 @@
             
             <div class="blog-post">
               
-              <h2 class="pb-3 mb-4 font-italic border-bottom">{{$post->title}}</h2>
+              <h2 class="pb-3 mb-4 font-italic border-bottom">{{$recipe->title}}</h2>
               
-              <p class="blog-post-meta">{{date_format($post->created_at,"l m-d-Y")}} by {{$post->author->name}}</p>
+              <p class="blog-post-meta">{{date_format($recipe->created_at,"l m-d-Y")}} by {{$recipe->author->name}}</p>
   
               <hr>
               <div class="image-wrapper mb-3">
@@ -20,7 +20,7 @@
                 </a>
               </div>
 
-              <p>{{$post->content}}</p>
+              <p>{{$recipe->content}}</p>
              
 
             </div>
@@ -28,7 +28,7 @@
                   <h3>Comments</h3>
                 <div class="bg-white p-2">
 
-                  @foreach($post->comments as $comment)
+                  @foreach($recipe->comments as $comment)
                     <div class="d-flex flex-row user-info"><img class="rounded-circle" src="https://i.pinimg.com/originals/0c/3b/3a/0c3b3adb1a7530892e55ef36d3be6cb8.png" width="40">
                         <div class="d-flex flex-column justify-content-start ml-2"><span class="d-block font-weight-bold name">{{$comment->user->name}}</span>
                         <span class="date text-black-50">Shared publicly  {{date_format($comment->created_at,"l m-d-Y")}}
@@ -51,12 +51,12 @@
                     @csrf
                     <div class="d-flex flex-row align-items-start">
                         <img class="rounded-circle" src="https://i.pinimg.com/originals/0c/3b/3a/0c3b3adb1a7530892e55ef36d3be6cb8.png" width="40">
-                        <input type="hidden" name="postId" value="{{$post->id}}">
+                        <input type="hidden" name="postId" value="{{$recipe->id}}">
                         <textarea class="form-control ml-1 shadow-none textarea" name="comentari"></textarea>
                   
                     </div>
                     <div class="mt-2 text-right">
-                      <button class="btn btn-primary btn-sm shadow-none" type="submit">Post comment</button>
+                      <button class="btn btn-primary btn-sm shadow-none" type="submit">Recipe comment</button>
                     </div>
                     </form>
                 </div>

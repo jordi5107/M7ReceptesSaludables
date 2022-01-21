@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PostController;
-use App\Http\Controllers\WebPostController;
+use App\Http\Controllers\RecipeController;
+use App\Http\Controllers\FrontPageController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
 /*
@@ -16,17 +16,21 @@ use App\Http\Controllers\CommentController;
 |
 */
 
-Route::get('/', [WebPostController::class, 'index'])->name('home');
+Route::get('/', [FrontPageController::class, 'index'])->name('home');
 
-Route::get('/post/{post}', [WebPostController::class, 'show'])->name('post');
+Route::get('/receptes/{post}', [FrontPageController::class, 'show'])->name('recipe');
 
-Route::get('/categories', [CategoryController::class, 'index'])->name('categories');
+Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
 Route::get('/categories/{categoryId}/', [CategoryController::class, 'show'])->name('category');
 
-Route::post('/post/write-comment', [CommentController::class, 'store'])->name('write comment');
-Route::get('/post/delete-comment/{id}', [CommentController::class, 'destroy'])->name('delete comment');
+Route::post('/recipe/write-comment', [CommentController::class, 'store'])->name('write comment');
+Route::get('/recipe/delete-comment/{id}', [CommentController::class, 'destroy'])->name('delete comment');
 
-Route::resource('posts', PostController::class);
+Route::middleware(['auth:sanctum', 'verified'])->group(function (){
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () { return redirect(route('posts.index'));})->name('dashboard');
+    Route::resource('recipes', RecipeController::class);
 
+    Route::resource('categories', CategoryController::class);
+
+
+});

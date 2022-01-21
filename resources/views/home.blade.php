@@ -14,20 +14,20 @@
             <!-- posts -->
         <div class="col-md-8">
 
-              @foreach($posts as $post)
+              @foreach($recipes as $recipe)
                 <div class="panel blog-container mt-4 ">
                   <div class="panel-body">
                     
-                    <h4><a href="{{route('post',$post)}}">{{$post->title}}</a></h4>
-                    <small class="text-muted">By <span><strong> {{$post->author->name}}</strong></span> |  {{ date_format($post->created_at,"l m-d-Y") }}</small>
+                    <h4><a href="{{route('recipe',$recipe)}}">{{$recipe->title}}</a></h4>
+                    <small class="text-muted">By <span><strong> {{$recipe->author->name}}</strong></span> |  {{ date_format($recipe->created_at,"l m-d-Y") }}</small>
                     
                     <p class="m-top-sm m-bottom-sm">
-                      {{$post->content}}  
+                      {{$recipe->content}}  
                     </p>
                    
                     <div class="image-wrapper">
                       <a class="image-wrapper image-zoom cboxElement" href="#">
-                        <img style=" height: 250px;width: 700px;" src="{{$post->image}}" alt="Photo of Blog">
+                        <img style=" height: 250px;width: 700px;" src="{{$recipe->image}}" alt="Photo of Blog">
                         <div ></div> 
                       </a>
                     </div>
@@ -42,10 +42,10 @@
                   POST AMB MES COMENTARIS
                   <span class="line"></span>
                 </h4>
-                @foreach($postMoreComments as $pop)
+                @foreach($recipeMoreComments as $pop)
                 <div class="media popular-post mb-3">
                   <div class="media-body ml-2">
-                    <a classs="pull-left" href="{{route('post', $pop->id)}}">{{$pop->title}}</a>
+                    <a classs="pull-left" href="{{route('recipe', $pop->id)}}">{{$pop->title}}</a>
                   </div>
                 </div>  
                 @endforeach

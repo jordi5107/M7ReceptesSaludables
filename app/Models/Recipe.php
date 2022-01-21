@@ -5,14 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Post extends Model
+class Recipe extends Model
 {
     use HasFactory;
 
 
     protected $fillable = [
         'title', 
-        'content',
+        'description',
+        'prepTime',
         'image',
         'author_id',
         'category_id',
