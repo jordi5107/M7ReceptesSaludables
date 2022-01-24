@@ -6,20 +6,20 @@
 <div class="py-12">
 	<div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 		<div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-			<form action="{{ route('posts.store') }}" method="POST">
+			<form action="{{ route('recipes.store') }}" method="POST" enctype="multipart/form-data">
 			@csrf
 				<div class="bg-white shadow overflow-hidden sm:rounded-lg">
 					<div class="px-4 py-5 border-b border-gray-200 sm:px-6">
 						<h3 class="text-lg leading-6 font-medium text-gray-900">Post content</h3>
 						<p class="mt-1 max-w-2xl text-sm leading-5 text-gray-500">Informació personal.
-							<a href="{{route('posts.index')}}" style="color:blue">Tornar enrere</a>
+							<a href="{{route('recipes.index')}}" style="color:blue">Tornar enrere</a>
 						</p>
 					</div>
 					<div>
 						<dl>
 							<div
 								class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-								<dt class="text-sm leading-5 font-medium text-gray-500">Titol post</dt>
+								<dt class="text-sm leading-5 font-medium text-gray-500">Titol de la recepta</dt>
 								<dd
 									class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
 									<input
@@ -29,24 +29,24 @@
 							</div>
 							<div
 								class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-								<dt class="text-sm leading-5 font-medium text-gray-500">Contingut</dt>
+								<dt class="text-sm leading-5 font-medium text-gray-500">Descripció</dt>
 								<dd
 									class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
 									<textarea
 										class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-										id="grid-content" type="text" name="content"
+										id="grid-content" type="text" name="description"
 										>
 									</textarea>
 								</dd>
 							</div>
 							<div
 								class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-								<dt class="text-sm leading-5 font-medium text-gray-500">Imatge</dt>
+								<dt class="text-sm leading-5 font-medium text-gray-500">Temps de preparació</dt>
 								<dd
 									class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
 									<input
 										class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-										id="grid-image" type="text" name="image">
+										id="grid-image" type="text" name="prepTime">
 								</dd>
 							</div>
 							<div
@@ -59,6 +59,16 @@
 										<option value="{{$cat->id}}">{{$cat->name}}</option>
 										@endforeach
 									</select>
+								</dd>
+							</div>
+							<div
+								class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+								<dt class="text-sm leading-5 font-medium text-gray-500">Imatge</dt>
+								<dd
+									class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
+									<input
+										class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+										id="grid-image" type="file" name="image">
 								</dd>
 							</div>
 							<div

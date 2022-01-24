@@ -28,6 +28,7 @@ Route::get('/recipe/delete-comment/{id}', [CommentController::class, 'destroy'])
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function (){
 
+    Route::get('dashboard', [RecipeController::class,'index'])->name('dashboard');
     Route::resource('recipes', RecipeController::class);
 
     Route::resource('categories', CategoryController::class);

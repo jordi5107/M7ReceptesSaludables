@@ -7,6 +7,8 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\Comment;
 use App\Models\User;
+use Illuminate\Http\File;
+use Illuminate\Support\Facades\Storage;
 
 use Auth;
 
@@ -20,9 +22,9 @@ class RecipeController extends Controller
     public function index()
     {
       
-            $recipe = Recipe::with('author:id,name', 'comments')->paginate(10);
+            $recipes = Recipe::with('author:id,name', 'comments')->paginate(10);
 
-            return view('dashboard')->with(compact('recipe'));
+            return view('dashboard')->with(compact('recipes'));
         
     }
 
@@ -38,7 +40,7 @@ class RecipeController extends Controller
             
         }else{
             $categories = Category::all();
-            return view('CrudPosts.create', compact('categories'));
+            return view('CrudRecipe.create', compact('categories'));
         }
     }
 
@@ -55,20 +57,33 @@ class RecipeController extends Controller
             
         }else{
             try {
-
                 $validatedData = $request->validate([
-                    'title' => 'required|unique:posts|max:190',
-                    'content' => 'required',
-                    'image' => 'required',
+                    'title' => 'required|max:190',
+                    'description' => 'required',
+                    'prepTime' => 'required',
                     'category_id' => 'required',
+                    'image' => 'nullable'
                 ]);
                 
-                
-                Post::create([
+                $fileName = time().'_'.$request->file('image')->getClientOriginalName();
+
+                $filePath = $request->file('image')->storeAs('uploads', $fileName, 'public');
+
+            // $fileModel->name = time().'_'.$req->file->getClientOriginalName();
+            // $fileModel->file_path = '/storage/' . $filePath;
+            // $fileModel->save();
+
+                // $path = Storage::putFile($request->image, new File('/recipes'));
+                // dd($request->prepTime);
+                // $path = Storage::putFileAs('photos', new File('/path/to/photo'), 'photo.jpg');
+
+                Recipe::create([
                     'title' => $request->title,
-                    'content' => $request->content,
-                    'image' => $request->image,
-                    'category_id'=> $request->category_id,
+                    'description' => $request->description,
+                    'prepTime' => $request->prepTime,
+                    'image' => '/storage/' . $filePath,
+                    'category_id' => $request->category_id,
+                    'ingredients' => json_encode($request->all()),
                     'author_id' => Auth::id(),
                     
                 ]);
@@ -76,6 +91,7 @@ class RecipeController extends Controller
                 return redirect(route('recipes.index'));
 
             }catch (\Throwable $e) {
+                dd($e);
                 return redirect(route('recipes.index'));
 
             } 
@@ -94,9 +110,9 @@ class RecipeController extends Controller
             return false;
             
         }else{
-            $post::with('author')->get();
+            $recipe::with('author')->get();
 
-            return view('CrudPosts.show')->with(compact('post'));
+            return view('CrudRecipe.show')->with(compact('recipe'));
 
         }
     }
@@ -107,7 +123,7 @@ class RecipeController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function edit(Post $post)
+    public function edit(Recipe $recipe)
     {
         if (Auth::User()->current_team_id != 1){
             return false;
@@ -115,7 +131,7 @@ class RecipeController extends Controller
         }else{
             $categories = Category::all();
 
-            return view('CrudPosts.edit', compact('post', 'categories'));
+            return view('CrudRecipe.edit', compact('recipe', 'categories'));
         }
     }
 
@@ -126,23 +142,23 @@ class RecipeController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, Recipe $recipe)
     {
         if (Auth::User()->current_team_id != 1){
             return false;
             
         }else{
             try {
-                $post->title = $request->get('title');
-                $post->content = $request->get('content');
-                $post->image = $request->get('image');
-                $post->category_id = $request->get('category_id');
-                $post->save();
+                $recipe->title = $request->get('title');
+                $recipe->content = $request->get('content');
+                $recipe->image = $request->get('image');
+                $recipe->category_id = $request->get('category_id');
+                $recipe->save();
 
-                return redirect('/posts');
+                return redirect()->route('dashboard');
 
             }catch (\Throwable $e) {
-                return redirect(route('posts.index'));
+                return redirect()->route('dashboard.index');
 
             }  
         }
@@ -154,14 +170,14 @@ class RecipeController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
+    public function destroy(Recipe $recipe)
     {
         if (Auth::User()->current_team_id != 1){
             return false;
             
         }else{
-            $post->delete();
-            return redirect('/posts');
+            $recipe->delete();
+            return redirect()->route('dashboard');
         }
     }
 }

@@ -15,6 +15,7 @@ class Recipe extends Model
         'description',
         'prepTime',
         'image',
+        'ingredients',
         'author_id',
         'category_id',
     ];
@@ -25,6 +26,11 @@ class Recipe extends Model
         return $this->hasMany(Comment::class);
     }
     
+    public function steps(){
+
+        return $this->hasMany(Step::class);
+    }
+
     public function category(){
 
         return $this->belongsTo(Category::class);
@@ -34,10 +40,6 @@ class Recipe extends Model
 
         return $this->belongsTo(User::class);
     }
-
-    
-
-
     
     
 }
