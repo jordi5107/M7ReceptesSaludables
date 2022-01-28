@@ -18,7 +18,6 @@ class CreateStepsTable extends Migration
             $table->string('name');
             $table->integer('step');
             $table->longText('text');
-            $table->text('description');
             $table->string('photo', 2048)->nullable();
             
             $table->foreignId('recipe_id')->references('id')->on('recipes');

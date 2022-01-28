@@ -52,6 +52,7 @@ class RecipeController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         if (Auth::User()->current_team_id != 1){
             return false;
             
@@ -67,15 +68,7 @@ class RecipeController extends Controller
                 
                 $fileName = time().'_'.$request->file('image')->getClientOriginalName();
 
-                $filePath = $request->file('image')->storeAs('uploads', $fileName, 'public');
-
-            // $fileModel->name = time().'_'.$req->file->getClientOriginalName();
-            // $fileModel->file_path = '/storage/' . $filePath;
-            // $fileModel->save();
-
-                // $path = Storage::putFile($request->image, new File('/recipes'));
-                // dd($request->prepTime);
-                // $path = Storage::putFileAs('photos', new File('/path/to/photo'), 'photo.jpg');
+                $filePath = $request->file('image')->storeAs('recipes', $fileName, 'public');
 
                 Recipe::create([
                     'title' => $request->title,
