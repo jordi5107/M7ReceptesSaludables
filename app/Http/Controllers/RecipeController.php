@@ -36,13 +36,8 @@ class RecipeController extends Controller
      */
     public function create()
     {
-        if (Auth::User()->current_team_id != 1){
-            return false;
-            
-        }else{
             $categories = Category::all();
             return view('CrudRecipe.create', compact('categories'));
-        }
     }
 
     /**
@@ -53,10 +48,7 @@ class RecipeController extends Controller
      */
     public function store(Request $request)
     {
-        if (Auth::User()->current_team_id != 1){
-            return false;
-            
-        }else{
+    
             try {
                 $validatedData = $request->validate([
                     'title' => 'required|max:190',
@@ -96,7 +88,6 @@ class RecipeController extends Controller
                 return redirect(route('recipes.index'));
 
             } 
-        }
     }
 
     /**
@@ -107,15 +98,10 @@ class RecipeController extends Controller
      */
     public function show(Recipe $recipe)
     {
-        if (Auth::User()->current_team_id != 1){
-            return false;
-            
-        }else{
             $recipe::with('author')->get();
 
             return view('CrudRecipe.show')->with(compact('recipe'));
 
-        }
     }
 
     /**
@@ -126,15 +112,10 @@ class RecipeController extends Controller
      */
     public function edit(Recipe $recipe)
     {
-        if (Auth::User()->current_team_id != 1){
-            return false;
-            
-        }else{
             $categories = Category::all();
             $totalRecipe = count($recipe->steps);
             
             return view('CrudRecipe.edit', compact('recipe', 'categories','totalRecipe'));
-        }
     }
 
     /**
@@ -146,10 +127,6 @@ class RecipeController extends Controller
      */
     public function update(Request $request, Recipe $recipe)
     {
-        if (Auth::User()->current_team_id != 1){
-            return false;
-            
-        }else{
             try {
 
                 $fileName = time().'_'.$request->file('image')->getClientOriginalName();
@@ -182,7 +159,6 @@ class RecipeController extends Controller
                 return redirect()->route('recipes.index');
 
             }  
-        }
     }
 
     /**
@@ -193,12 +169,7 @@ class RecipeController extends Controller
      */
     public function destroy(Recipe $recipe)
     {
-        if (Auth::User()->current_team_id != 1){
-            return false;
-            
-        }else{
             $recipe->delete();
             return redirect()->route('dashboard');
-        }
     }
 }

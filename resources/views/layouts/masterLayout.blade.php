@@ -46,9 +46,7 @@
                             <img src="https://i.pinimg.com/originals/0c/3b/3a/0c3b3adb1a7530892e55ef36d3be6cb8.png" alt="mdo" width="32" height="32" class="rounded-circle">
                         </a>
                         <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-                            @if(Auth::user()->current_team_id == 1)
                             <li><a class="dropdown-item" href="{{route('login')}}">Accedeix al gestor de contingut</a></li>
-                            @endif
                             <li>
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
