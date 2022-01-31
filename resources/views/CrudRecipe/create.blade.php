@@ -1,30 +1,4 @@
 <x-app-layout>
-	<!-- <div style="z-index:1" id="recipeModal" class="modal hidden bg-slate-800 bg-opacity-50 flex justify-center items-center absolute top-0 right-0 bottom-0 left-0">
-		<div class="bg-white px-16 py-14 rounded-md text-center">
-			<h1 class="text-xl mb-4 font-bold text-slate-500">Crear pas</h1>
-			<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-
-			<form id="stepData">
-				<dl>
-					<dt class="text-sm leading-5 font-medium text-gray-500">Nom</dt>
-					<dd class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
-						<input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" name="name" id="name">
-					</dd>
-					<dt class="text-sm leading-5 font-medium text-gray-500">Explicació</dt>
-					<dd class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
-						<textarea class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-content" type="text" name="text">
-						</textarea>
-					</dd>
-					<dt class="text-sm leading-5 font-medium text-gray-500">Foto</dt>
-					<dd class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
-						<input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-image" type="file" name="photo">
-					</dd>
-					<input type="submit" value="Submit" id="submit" class="mt-4 bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" style="font-size: 0.8em;">
-				</dl>
-			</form>
-		</div>
-	</div> -->
-
 	<div class="py-12">
 		<div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 			<div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
@@ -33,7 +7,7 @@
 					@csrf
 					<div class="bg-white shadow overflow-hidden sm:rounded-lg">
 						<div class="px-4 py-5 border-b border-gray-200 sm:px-6">
-							<h3 class="text-lg leading-6 font-medium text-gray-900">Post content</h3>
+							<h3 class="text-lg leading-6 font-medium text-gray-900">Recipe content</h3>
 							<p class="mt-1 max-w-2xl text-sm leading-5 text-gray-500">Informació personal.
 								<a href="{{route('recipes.index')}}" style="color:blue">Tornar enrere</a>
 							</p>
@@ -53,10 +27,18 @@
 									</textarea>
 									</dd>
 								</div>
+								<div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+									<dt class="text-sm leading-5 font-medium text-gray-500">Ingredients</dt>
+									<dd class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
+										<span>Recorda separar els ingredients per comes!!</span>
+										<textarea class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-content" type="text" name="ingredients">
+									</textarea>
+									</dd>
+								</div>
 								<div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
 									<dt class="text-sm leading-5 font-medium text-gray-500">Temps de preparació</dt>
 									<dd class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
-										<input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-image" type="text" name="prepTime">
+										<input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-image" type="time" name="prepTime">
 									</dd>
 								</div>
 								<div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -107,23 +89,18 @@
 		});
 
 		function getRecipes(){
-			
-			// $("#steps").each(function() {
 				jsonObj = [];
 
-				// console.log(id, i);
-				for (let i = 0; i < id; i++) {
+				for (let i = 0; i <= id; i++) {
 					var step = "#step"+i;
-					console.log(step)
 					$(step).each(function(){
 						var name = $(this).find("input[name=name]").val();
 						var text = $(this).find("textarea[name=textRecipe]").val();
-						// var image = $(this).find("input[name=slot_type]").val();
-						console.log(name);
 
 						item = {};
 						item["name"] = name;
 						item["text"] = text;
+						item["step"] = i;
 						jsonObj.push(item);
 					});
 
@@ -131,16 +108,20 @@
 				
 				return jsonObj;
 				
-			// });
 		
 		}
 		
 			
 		$('#recipeForm').submit(function(e){
-			e.preventDefault();
 			var obj = getRecipes();
-
-			console.log(obj);
+			$.each(obj, function(i, v){
+				var input = $("<input>").attr({
+					"type":"hidden",
+					"name":"steps[]"
+				}).val(JSON.stringify(v));
+				$('#recipeForm').append(input);    
+			});
+			return true
 			
 		});
 
@@ -150,23 +131,20 @@
 			var rows = '';
 
 			rows = rows + '<div id="step'+ id+'">';
-			rows = rows + '<span class="mt-3">Pas ' + id + '</span>';
+			rows = rows + '<span class="mt-3"><b>Pas ' + id + '</b></span>';
+
+			rows = rows + '<br><span>Titol del pas</span>';
 
 			rows = rows + '<input class="mt-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" type="text" name="name" id="name">';
 
+			rows = rows + '<br><span>Explicació del pas</span>';
+
 			rows = rows + '<textarea class="mt-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-content" type="text" name="textRecipe"></textarea>';
 
-			// rows = rows + '<input class="mt-3 appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-image" type="file" name="image' + id + '">';
-
 			rows = rows + '</div>';
-
-			
 
 			$("#steps").append(rows);
 		}
 
-
-
-		
 	</script>
 </x-app-layout>

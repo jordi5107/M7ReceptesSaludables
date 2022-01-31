@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Recipe;
+use App\Models\Step;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\Comment;
@@ -52,7 +53,6 @@ class RecipeController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
         if (Auth::User()->current_team_id != 1){
             return false;
             
@@ -70,21 +70,29 @@ class RecipeController extends Controller
 
                 $filePath = $request->file('image')->storeAs('recipes', $fileName, 'public');
 
-                Recipe::create([
+                $recipe = Recipe::create([
                     'title' => $request->title,
                     'description' => $request->description,
                     'prepTime' => $request->prepTime,
                     'image' => '/storage/' . $filePath,
                     'category_id' => $request->category_id,
-                    'ingredients' => json_encode($request->all()),
+                    'ingredients' => $request->ingredients,
                     'author_id' => Auth::id(),
                     
                 ]);
 
+                $steps = $request->steps;
+                $stepsLength = count($steps);
+
+                for ($i=0; $i < $stepsLength; $i++) { 
+                    $steps[$i] = json_decode($steps[$i], true); 
+                }
+
+                $recipe->steps()->createMany($steps);
+
                 return redirect(route('recipes.index'));
 
             }catch (\Throwable $e) {
-                dd($e);
                 return redirect(route('recipes.index'));
 
             } 
@@ -123,8 +131,9 @@ class RecipeController extends Controller
             
         }else{
             $categories = Category::all();
-
-            return view('CrudRecipe.edit', compact('recipe', 'categories'));
+            $totalRecipe = count($recipe->steps);
+            
+            return view('CrudRecipe.edit', compact('recipe', 'categories','totalRecipe'));
         }
     }
 
@@ -142,16 +151,35 @@ class RecipeController extends Controller
             
         }else{
             try {
+
+                $fileName = time().'_'.$request->file('image')->getClientOriginalName();
+
+                $filePath = $request->file('image')->storeAs('recipes', $fileName, 'public');
+
                 $recipe->title = $request->get('title');
-                $recipe->content = $request->get('content');
-                $recipe->image = $request->get('image');
+                $recipe->description = $request->get('description');
+                $recipe->image = '/storage/'.$filePath;
+                $recipe->prepTime = $request->get('prepTime');
+                $recipe->ingredients = $request->get('ingredients');
                 $recipe->category_id = $request->get('category_id');
                 $recipe->save();
 
-                return redirect()->route('dashboard');
+
+                $steps = $request->steps;
+
+                $stepsLength = count($steps);
+
+                for ($i=0; $i < $stepsLength; $i++) { 
+                    $steps[$i] = json_decode($steps[$i], true); 
+                }
+
+                Step::saveSteps($recipe->id, $steps);
+
+
+                return redirect()->route('recipes.index');
 
             }catch (\Throwable $e) {
-                return redirect()->route('dashboard.index');
+                return redirect()->route('recipes.index');
 
             }  
         }

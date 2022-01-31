@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Database\Seeders\UserSeeder;
-use Database\Seeders\PostSeeder;
+use Database\Seeders\RecipeSeeder;
 use Database\Seeders\TeamsSeeder;
 use Database\Seeders\CategorySeeder;
 
@@ -21,8 +21,8 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             TeamsSeeder::class,
             UserSeeder::class,
-            // PostSeeder::class,
-            // CommentSeeder::class,
+            RecipeSeeder::class,
+            CommentSeeder::class,
         ]);
     }
 }

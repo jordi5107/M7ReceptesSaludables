@@ -19,9 +19,9 @@ class CategorySeeder extends Seeder
         $current_date_time = Carbon::now()->toDateTimeString();
         $categories = [
 
-            ['name' => "Politica", "description" => "Noticies sobre politica", "image"=>"https://thumbs.dreamstime.com/b/los-pol%C3%ADticos-que-participan-en-el-discusi%C3%B3n-pol%C3%ADtico-115420384.jpg", "created_at"=>$current_date_time, "updated_at"=>$current_date_time],
-            ['name' => "Tecnologia", "description" => "Noticies sobre tecnologia", "image"=>"https://images.ctfassets.net/hrltx12pl8hq/4ACnMj4WVSOZRZt0jHu9h5/1506f652bcd70f4dc3e88219fefea858/shutterstock_739595833-min.jpg?fit=fill&w=800&h=300", "created_at"=>$current_date_time, "updated_at"=>$current_date_time],
-            ['name' => "Successos", "description" => "Noticies sobre successos", "image"=>"https://media.istockphoto.com/photos/free-stage-with-lights-picture-id1222776839?k=20&m=1222776839&s=612x612&w=0&h=xwsAmz_orgrN7bzZHlNma23KY9bZSk5A2od_mI2xawU=", "created_at"=>$current_date_time, "updated_at"=>$current_date_time],
+            ['name' => "Plats", "description" => "Plats amb el millor gust", "image"=>"https://ep00.epimg.net/elcomidista/imagenes/2017/03/15/receta/1489602058_631150_1490079875_media_normal.jpg", "created_at"=>$current_date_time, "updated_at"=>$current_date_time],
+            ['name' => "Postres", "description" => "Postres dolços", "image"=>"https://images.aws.nestle.recipes/resized/2CE16976-811C-6377-B9D8-FF0000673B69-490x252-b-min_1200_600.png", "created_at"=>$current_date_time, "updated_at"=>$current_date_time],
+            ['name' => "Entrants", "description" => "Algo per picar?", "image"=>"https://www.cocinatis.com/media/photologue/photos/entrantes-navidad-huevos-rebozados.jpg", "created_at"=>$current_date_time, "updated_at"=>$current_date_time],
 
         ];
 

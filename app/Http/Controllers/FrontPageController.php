@@ -21,7 +21,7 @@ class FrontPageController extends Controller
         {
             return $comments->comments->count();
         });
-        // dd($postMoreComments);
+
         return view('home')->with(compact('recipes', 'recipeMoreComments'));
     }
 
@@ -31,10 +31,15 @@ class FrontPageController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show(Recipe $recipe)
+    public function show( $id)
     {
+        $recipe = Recipe::findOrFail($id);
+        $ingredients = explode(",",$recipe->ingredients);
+
+        $steps = $recipe->steps->toArray();
+        
         $categories = Category::All();
-        return view('recipe')->with(compact('recipe', 'categories'));
+        return view('recipe')->with(compact('recipe', 'categories','ingredients', 'steps'));
 
     }
 

@@ -18,9 +18,9 @@ class CommentSeeder extends Seeder
         $current_date_time = Carbon::now()->toDateTimeString();
         $comments = [
 
-            ['comment' => "M'agrada", "post_id" => "1", "user_id"=>"1", "created_at"=>$current_date_time, "updated_at"=>$current_date_time],
-            ['comment' => "M'agrada", "post_id" => "2", "user_id"=>"1", "created_at"=>$current_date_time, "updated_at"=>$current_date_time],
-            ['comment' => "M'agrada", "post_id" => "3", "user_id"=>"1", "created_at"=>$current_date_time, "updated_at"=>$current_date_time],
+            ['comment' => "M'agrada", "recipe_id" => "1", "user_id"=>"1", "created_at"=>$current_date_time, "updated_at"=>$current_date_time],
+            ['comment' => "M'agrada", "recipe_id" => "2", "user_id"=>"1", "created_at"=>$current_date_time, "updated_at"=>$current_date_time],
+            ['comment' => "M'agrada", "recipe_id" => "3", "user_id"=>"1", "created_at"=>$current_date_time, "updated_at"=>$current_date_time],
 
         ];
 

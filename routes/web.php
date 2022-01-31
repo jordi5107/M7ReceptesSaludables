@@ -20,7 +20,7 @@ Route::get('/', [FrontPageController::class, 'index'])->name('home');
 
 Route::get('/receptes/{post}', [FrontPageController::class, 'show'])->name('recipe');
 
-Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+Route::get('/categories', [CategoryController::class, 'index'])->name('categories.home');
 Route::get('/categories/{categoryId}/', [CategoryController::class, 'show'])->name('category');
 
 Route::post('/recipe/write-comment', [CommentController::class, 'store'])->name('write comment');
@@ -30,8 +30,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function (){
 
     Route::get('dashboard', [RecipeController::class,'index'])->name('dashboard');
     Route::resource('recipes', RecipeController::class);
-
-    Route::resource('categories', CategoryController::class);
 
 
 });

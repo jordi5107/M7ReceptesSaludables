@@ -17,14 +17,15 @@ class CreateRecipesTable extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->double('prepTime');
-            $table->json('ingredients');
+            $table->time('prepTime');
+            $table->longText('ingredients');
             $table->string('image');
 
             $table->foreignId('category_id')->references('id')->on('categories');
             $table->foreignId('author_id')->references('id')->on('users');
 
             $table->timestamps();
+            $table->softDeletes();
 
         });
     }

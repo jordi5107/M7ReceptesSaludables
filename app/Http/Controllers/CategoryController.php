@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use App\Models\Post;
+use App\Models\Recipe;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -48,14 +48,14 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        $posts = Post::where('category_id', $id)->with('category', 'author')->get();
+        $recipes = Recipe::where('category_id', $id)->with('category', 'author')->get();
         $category = Category::where('id', $id)->pluck('name')->first();
 
-        if (count($posts) == 0 ){
-            $posts = "No hi ha posts en aquesta categoria";
+        if (count($recipes) == 0 ){
+            $recipes = "No hi ha posts en aquesta categoria";
         }
 
-        return view ('category')->with(compact('posts', 'category'));
+        return view ('category')->with(compact('recipes', 'category'));
     }
 
     

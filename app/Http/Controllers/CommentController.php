@@ -30,14 +30,13 @@ class CommentController extends Controller
         try {
             Comment::create([
                 'comment' => $request->comentari,
-                'post_id' => $request->postId,
+                'recipe_id' => $request->recipeId,
                 'user_id' => Auth::id(),
                 
             ]);
     
             return redirect()->back();
         } catch (\Throwable $e) {
-            dd($e);
         }  
   
     }
